@@ -12,11 +12,19 @@ from dataclasses import dataclass
 # 3. You may drop the init if you are using @dataclasses
 # --------------------------------------------
 class Holiday:
+    
+    """Holiday Class"""
       
     def __init__(self,name,date):
         #Your Code Here        
         self.__name = name
         self.__date = date
+
+    def get_Holiday_name(self):
+        return self.__name
+
+    def get_Holiday_date(self):
+        return self.__date
     
     def __str__ (self):
         # String output
@@ -36,19 +44,24 @@ class HolidayList:
    
     def addHoliday(holidayObj):
         # Make sure holidayObj is an Holiday Object by checking the type
+        print(f"Checking to see if '{holidayObj}' is a valid Holiday:")
         if type(holidayObj) == Holiday:
         # Use innerHolidays.append(holidayObj) to add holiday
-            HolidayList.append(holidayObj) ### Works!!
+            print(f"'{holidayObj}' has been validated!")
+            innerHolidays.append(holidayObj) ### Works!!
         # print to the user that you added a holiday
-            print(f"\"{holidayObj}\" has been added to the Holiday List!") ### Works!!
+            print(f"'{holidayObj}' has been added to the Holiday List!") ### Works!!
         else:
-            print(f"\"{holidayObj}\" isn't working... Please make sure that you're adding a Holiday Object and not something else.") ### Works!!
+            print(f"'{holidayObj}' isn't working... Please make sure that you're adding a Holiday Object and not something else.") ### Works!!
     
-    def findHoliday(HolidayName, Date):
+    def findHoliday(HolidayName, Date): ### Does not work... nope.
         # Find Holiday in innerHolidays
-        foundHoliday = HolidayList.find(HolidayName, Date) ### Does not work...
-        # Return Holiday
-        return foundHoliday
+        x = Holiday(HolidayName, Date)
+        if x in innerHolidays:
+            foundHoliday = x 
+            # Return Holiday
+            print(f"{foundHoliday} has been located!")
+            return foundHoliday
 
     def removeHoliday(HolidayName, Date):
         # Find Holiday in innerHolidays by searching the name and date combination.
