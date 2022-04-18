@@ -54,14 +54,14 @@ class HolidayList:
         else:
             print(f"'{holidayObj}' isn't working... Please make sure that you're adding a Holiday Object and not something else.") ### Works!!
     
-    def findHoliday(HolidayName, Date): ### Does not work... nope.
+    def findHoliday(HolidayName, Date):
         # Find Holiday in innerHolidays
-        x = Holiday(HolidayName, Date)
-        if x in innerHolidays:
-            foundHoliday = x 
-            # Return Holiday
-            print(f"{foundHoliday} has been located!")
-            return foundHoliday
+        print(f"Searching for {HolidayName} : {Date}.")
+        if Holiday(HolidayName, Date):
+            print(f"{HolidayName} : {Date} has been located!")
+            return Holiday(HolidayName, Date)
+        else:
+            print(f"{HolidayName} : {Date} does not appear to be on our list.")
 
     def removeHoliday(HolidayName, Date):
         # Find Holiday in innerHolidays by searching the name and date combination.

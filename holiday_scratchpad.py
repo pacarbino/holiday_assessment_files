@@ -18,6 +18,17 @@ html = get_html("https://www.timeanddate.com/holidays/us/")
 # print(soup)
 class Holiday:
     """Holiday Class:
+    Holiday(name, date)
+
+    __init__(self, name, date)
+        Initialize self
+
+    get_Holiday_name(self)
+
+    get_Holiday_date(self)
+
+    __str__(self):
+        String output of Holiday
     """
     
     def __init__(self, name, date):
@@ -45,6 +56,11 @@ innerHolidays = []
 
 holiday2 = Holiday("Chrimbus", "2022-12-25")
 
+halloween = Holiday("Halloween", "2022-10-31")
+
+print(holiday2.get_Holiday_name())
+print(holiday2.get_Holiday_date())
+
 class HolidayList:
     def __init__(self):
        self.innerHolidays = []
@@ -62,13 +78,9 @@ class HolidayList:
             print(f"'{holidayObj}' isn't working... Please make sure that you're adding a Holiday Object and not something else.") ### Works!!
     
 
-HolidayList.addHoliday(holiday1)
+HolidayList.addHoliday(holiday1)  ###TEST VVV
 HolidayList.addHoliday(holiday2)
-
-def findHoliday(HolidayName, Date):
-        # Find Holiday in innerHolidays
-    for holiday in innerHolidays:
-
+HolidayList.addHoliday(halloween)
 
 def numHolidays():
         # Return the total number of holidays in innerHolidays
@@ -78,11 +90,10 @@ print(numHolidays())
 def findHoliday(HolidayName, Date): ### Does not work...
         # Find Holiday in innerHolidays
         print(f"Searching for {HolidayName} : {Date}.")
-        x = Holiday(HolidayName, Date)
-        if x in innerHolidays:
-            foundHoliday = x 
-            print(f"{foundHoliday} has been located!")
-            return foundHoliday
+        if Holiday(HolidayName, Date):
+            print(f"{HolidayName} : {Date} has been located!")
+        else:
+            print(f"{HolidayName} : {Date} does not appear to be on our list.")
 
 findHoliday("Festivus", "2022-21-23")
 
