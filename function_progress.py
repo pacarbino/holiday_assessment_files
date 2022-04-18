@@ -45,20 +45,33 @@ class HolidayList:
         # Make sure holidayObj is an Holiday Object by checking the type
         print(f"Checking to see if '{holidayObj}' is a valid Holiday:")
         if type(holidayObj) == Holiday:
+            if holidayObj in self.innerHolidays:
+                print(f"Looks like {holidayObj} is already on the list!")
         # Use innerHolidays.append(holidayObj) to add holiday
-            print(f"'{holidayObj}' has been validated!")
-            self.innerHolidays.append(holidayObj) ### Works!!
-        # print to the user that you added a holiday
-            print(f"'{holidayObj}' has been added to the Holiday List!") ### not working??
+            else:
+                print(f"'{holidayObj}' has been validated!")
+                self.innerHolidays.append(holidayObj)
+                print(f"'{holidayObj}' has been added to the Holiday List!") ### not working??
         else:
             print(f"'{holidayObj}' isn't working... Please make sure that you're adding a Holiday Object and not something else.")
 ######TESTING#######
-xmas = Holiday("Christmas", "2022-12-25")
+
+mainHolidayList = HolidayList() ### MUST ADD INSTANCE OF CLASS!!! (mainHolidayList is an instance of HolidayList. Without that, you have plans, but no actual object with any of the properties.)
+
+
+xmas = Holiday("Christmas", "2022-12-25") ### these will be made internally with 
 halloween = Holiday("Halloween", "2022-10-31")
 print(halloween)
 print(Holiday.get_Holiday_date(halloween))
 print(Holiday.get_Holiday_name(xmas))
-HolidayList.addHoliday(HolidayList, halloween)
+mainHolidayList.addHoliday(halloween)
+mainHolidayList.addHoliday(xmas)
+print(len(mainHolidayList.innerHolidays))
+mainHolidayList.addHoliday(halloween)
+print(len(mainHolidayList.innerHolidays))
+festivus = Holiday("Festivus", "2022-12-23")
+mainHolidayList.addHoliday(festivus)
+print(len(mainHolidayList.innerHolidays))
 ######TESTING#######
 
 
