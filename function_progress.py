@@ -11,11 +11,11 @@ from dataclasses import dataclass
 # 2. You may need to add additional functions
 # 3. You may drop the init if you are using @dataclasses
 # --------------------------------------------
+
 class Holiday:
-    
     """Holiday Class"""
-      
-    def __init__(self,name,date):
+    
+    def __init__(self, name, date): ##call constructor to turn string date into datetime object.
         #Your Code Here        
         self.__name = name
         self.__date = date
@@ -25,14 +25,13 @@ class Holiday:
 
     def get_Holiday_date(self):
         return self.__date
-    
-    def __str__ (self):
+
+    def __str__(self): ##make sure date is in the right format.
         # String output
         # Holiday output when printed.
-        return f"{self.__name} : {self.__date}"   
-
-innerHolidays = []
-
+        return f"{self.__name} : {self.__date}"
+          
+           
 # -------------------------------------------
 # The HolidayList class acts as a wrapper and container
 # For the list of holidays
@@ -40,29 +39,33 @@ innerHolidays = []
 # --------------------------------------------
 class HolidayList:
     def __init__(self):
-       self.innerHolidays = []
+        self.innerHolidays = []
    
-    def addHoliday(holidayObj):
+    def addHoliday(self, holidayObj):
         # Make sure holidayObj is an Holiday Object by checking the type
         print(f"Checking to see if '{holidayObj}' is a valid Holiday:")
         if type(holidayObj) == Holiday:
         # Use innerHolidays.append(holidayObj) to add holiday
             print(f"'{holidayObj}' has been validated!")
-            innerHolidays.append(holidayObj) ### Works!!
+            self.innerHolidays.append(holidayObj) ### Works!!
         # print to the user that you added a holiday
-            print(f"'{holidayObj}' has been added to the Holiday List!") ### Works!!
+            print(f"'{holidayObj}' has been added to the Holiday List!") ### not working??
         else:
-            print(f"'{holidayObj}' isn't working... Please make sure that you're adding a Holiday Object and not something else.") ### Works!!
-    
-    def findHoliday(HolidayName, Date):
-        # Find Holiday in innerHolidays
-        print(f"Searching for {HolidayName} : {Date}.")
-        if Holiday(HolidayName, Date):
-            print(f"{HolidayName} : {Date} has been located!")
-            return Holiday(HolidayName, Date)
-        else:
-            print(f"{HolidayName} : {Date} does not appear to be on our list.")
-HolidayList.findHoliday()
+            print(f"'{holidayObj}' isn't working... Please make sure that you're adding a Holiday Object and not something else.")
+######TESTING#######
+xmas = Holiday("Christmas", "2022-12-25")
+halloween = Holiday("Halloween", "2022-10-31")
+print(halloween)
+print(Holiday.get_Holiday_date(halloween))
+print(Holiday.get_Holiday_name(xmas))
+HolidayList.addHoliday(HolidayList, halloween)
+######TESTING#######
+
+
+#     def findHoliday(self, HolidayName, Date): ##add self??
+#         # Find Holiday in innerHolidays
+#         # Return Holiday
+
 #     def removeHoliday(HolidayName, Date):
 #         # Find Holiday in innerHolidays by searching the name and date combination.
 #         # remove the Holiday from innerHolidays
@@ -84,7 +87,6 @@ HolidayList.findHoliday()
 
 #     def numHolidays():
 #         # Return the total number of holidays in innerHolidays
-#         return len(innerHolidays) ### Works!
     
 #     def filter_holidays_by_week(year, week_number):
 #         # Use a Lambda function to filter by week number and save this as holidays, use the filter on innerHolidays
