@@ -12,8 +12,8 @@ def get_html(url):
 
 html = get_html("https://www.timeanddate.com/holidays/us/")
 
-# print(html)
-# soup = bsoup(html, 'html.parser')
+print(html)
+soup = bsoup(html, 'html.parser')
 
 # print(soup)
 class Holiday:
@@ -87,15 +87,31 @@ def numHolidays():
         return len(innerHolidays)
 print(numHolidays())
 
-def findHoliday(HolidayName, Date): ### Does not work...
+def findHoliday(HolidayName, Date):
         # Find Holiday in innerHolidays
         print(f"Searching for {HolidayName} : {Date}.")
         if Holiday(HolidayName, Date):
             print(f"{HolidayName} : {Date} has been located!")
+            return Holiday(HolidayName, Date)
         else:
             print(f"{HolidayName} : {Date} does not appear to be on our list.")
 
 findHoliday("Festivus", "2022-21-23")
+print(findHoliday("Festivus", "2022-21-23"))
 
-print(innerHolidays[0])
+# def removeHoliday(HolidayName, Date):  ##not working at all...
+#     # Find Holiday in innerHolidays by searching the name and date combination.
+#     print(f"Searching for {HolidayName} : {Date}.")
+#     if Holiday(HolidayName, Date):
+#         print(f"{HolidayName} : {Date} has been located!")
+#     # remove the Holiday from innerHolidays
+#         del Holiday(HolidayName, Date)
+#     # inform user you deleted the holiday
+#         print(f"{HolidayName} : {Date} has been deleted!")
+#     else:
+#         print(f"{HolidayName} : {Date} does not appear to be on our list.")
+
+# removeHoliday("Halloween", "2022-10-31")
+
+print(len(innerHolidays))
 # help(Holiday)
