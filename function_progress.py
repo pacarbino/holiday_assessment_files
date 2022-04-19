@@ -1,4 +1,7 @@
 import datetime
+from datetime import timedelta
+from datetime import datetime as dt
+import itertools
 import json
 from bs4 import BeautifulSoup
 import requests
@@ -16,9 +19,14 @@ class Holiday:
     """Holiday Class"""
     
     def __init__(self, name, date): ##call constructor to turn string date into datetime object.
-        #Your Code Here        
+        #Your Code Here 
+        dateFormat = '%m-%d-%Y'
+        newDate = dt.strptime(date,dateFormat)
+        # print (newDate.strftime("%B %d, %Y"))
+        # if type(dateFormat) != datetime.datetime:
+        #     print("Please enter a valid date in the format: 'mm-dd-yyyy'.")
         self.__name = name
-        self.__date = date
+        self.__date = newDate.strftime('%B %d, %Y')
 
     def get_Holiday_name(self):
         return self.__name
@@ -38,9 +46,12 @@ class Holiday:
 # Each method has pseudo-code instructions
 # --------------------------------------------
 class HolidayList:
+    ## __init__:
     def __init__(self):
         self.innerHolidays = []
    
+    
+    ## addHoliday:
     def addHoliday(self, holidayObj):
         # Make sure holidayObj is an Holiday Object by checking the type
         print(f"Checking to see if '{holidayObj}' is a valid Holiday:")
@@ -51,33 +62,54 @@ class HolidayList:
             else:
                 print(f"'{holidayObj}' has been validated!")
                 self.innerHolidays.append(holidayObj)
-                print(f"'{holidayObj}' has been added to the Holiday List!") ### not working??
+                print(f"'{holidayObj}' has been added to the Holiday List!") 
         else:
             print(f"'{holidayObj}' isn't working... Please make sure that you're adding a Holiday Object and not something else.")
+    
+    ## findHoliday:
+    def findHoliday(self, HolidayName, date):
+        holidayObj = Holiday(HolidayName, date)
+        if holidayObj in self.innerHolidays:
+            print(f'Searching for {holidayObj}:')
+        # Find Holiday in innerHolidays
+            # Return Holiday
+            return holidayObj
+        else:
+            print(f'{holidayObj} does not appear to be on our list... Please check your input or try adding it.')
+            
+
+
+
 ######TESTING#######
 
 mainHolidayList = HolidayList() ### MUST ADD INSTANCE OF CLASS!!! (mainHolidayList is an instance of HolidayList. Without that, you have plans, but no actual object with any of the properties.)
 
-
-xmas = Holiday("Christmas", "2022-12-25") ### these will be made internally with 
-halloween = Holiday("Halloween", "2022-10-31")
+######TESTING#######
+## test Holiday class
+xmas = Holiday('Christmas', '12-25-2022') ### these will be made internally with json import
+halloween = Holiday('Halloween', '10-31-2022')
 print(halloween)
 print(Holiday.get_Holiday_date(halloween))
 print(Holiday.get_Holiday_name(xmas))
+
+## test(HolidayList class)
+print(len(mainHolidayList.innerHolidays))
 mainHolidayList.addHoliday(halloween)
 mainHolidayList.addHoliday(xmas)
 print(len(mainHolidayList.innerHolidays))
 mainHolidayList.addHoliday(halloween)
 print(len(mainHolidayList.innerHolidays))
-festivus = Holiday("Festivus", "2022-12-23")
+festivus = Holiday('Festivus', '12-23-2022')
 mainHolidayList.addHoliday(festivus)
 print(len(mainHolidayList.innerHolidays))
+
+## test mainHolidayList.findHoliday:
+mainHolidayList.findHoliday('Festivus', '12-23-2022') ###not working...
+
 ######TESTING#######
 
 
-#     def findHoliday(self, HolidayName, Date): ##add self??
-#         # Find Holiday in innerHolidays
-#         # Return Holiday
+
 
 #     def removeHoliday(HolidayName, Date):
 #         # Find Holiday in innerHolidays by searching the name and date combination.
