@@ -20,11 +20,11 @@ class Holiday:
     
     def __init__(self, name, date): ##call constructor to turn string date into datetime object.
         #Your Code Here 
-        dateFormat = '%m-%d-%Y'
+        dateFormat = '%Y-%m-%d'
         newDate = dt.strptime(date,dateFormat)
         # print (newDate.strftime("%B %d, %Y"))
         # if type(dateFormat) != datetime.datetime:
-        #     print("Please enter a valid date in the format: 'mm-dd-yyyy'.")
+        #     print("Please enter a valid date in the format: 'yyyy-mm-dd'.")
         self.__name = name
         self.__date = newDate.strftime('%B %d, %Y')
 
@@ -52,7 +52,7 @@ class HolidayList:
    
     
     ## addHoliday:
-    def addHoliday(self, holidayObj):
+    def addHoliday(self, holidayObj): ## WORKS!!
         # Make sure holidayObj is an Holiday Object by checking the type
         print(f"Checking to see if '{holidayObj}' is a valid Holiday:")
         if type(holidayObj) == Holiday:
@@ -66,7 +66,7 @@ class HolidayList:
         else:
             print(f"'{holidayObj}' isn't working... Please make sure that you're adding a Holiday Object and not something else.")
     
-    ## findHoliday:
+    ## findHoliday:  ## NOT WORKING, COME BACK LATER!!!!!!!!!*****************************************
     def findHoliday(self, HolidayName, date):
         holidayObj = Holiday(HolidayName, date)
         if holidayObj in self.innerHolidays:
@@ -76,6 +76,21 @@ class HolidayList:
             return holidayObj
         else:
             print(f'{holidayObj} does not appear to be on our list... Please check your input or try adding it.')
+
+
+    def read_json(self, filelocation):  ####  WORKS!!!
+#         # Read in things from json file location
+        f = open(filelocation)
+        holidayInfo = json.load(f)
+        # print(holidayInfo) ## test
+        for x in list(holidayInfo.values())[0]:
+            # print(list(x.values())) ## test
+            name = list(x.values())[0]
+            date = list(x.values())[1]
+            newHoliday = Holiday(name, date)
+            self.addHoliday(newHoliday)
+        f.close()
+
             
 
 
@@ -85,27 +100,34 @@ class HolidayList:
 mainHolidayList = HolidayList() ### MUST ADD INSTANCE OF CLASS!!! (mainHolidayList is an instance of HolidayList. Without that, you have plans, but no actual object with any of the properties.)
 
 ######TESTING#######
-## test Holiday class
-xmas = Holiday('Christmas', '12-25-2022') ### these will be made internally with json import
-halloween = Holiday('Halloween', '10-31-2022')
+## test Holiday class: ## Holiday class WORKS
+xmas = Holiday('Christmas', '2022-12-25') ### these will be made internally with json import
+halloween = Holiday('Halloween', '2022-10-31')
 print(halloween)
 print(Holiday.get_Holiday_date(halloween))
 print(Holiday.get_Holiday_name(xmas))
 
-## test(HolidayList class)
+## test(HolidayList class): ## HolidayList class WORKS
 print(len(mainHolidayList.innerHolidays))
 mainHolidayList.addHoliday(halloween)
 mainHolidayList.addHoliday(xmas)
 print(len(mainHolidayList.innerHolidays))
 mainHolidayList.addHoliday(halloween)
 print(len(mainHolidayList.innerHolidays))
-festivus = Holiday('Festivus', '12-23-2022')
+festivus = Holiday('Festivus', '2022-12-23')
 mainHolidayList.addHoliday(festivus)
 print(len(mainHolidayList.innerHolidays))
 
-## test mainHolidayList.findHoliday:
-mainHolidayList.findHoliday('Festivus', '12-23-2022') ###not working...
+## test mainHolidayList.findHoliday: ## mainHolidayList.findHoliday WORKS
+mainHolidayList.findHoliday('Festivus', '2022-12-23') ###not working...
 
+##test mainHolidayList.read_json: ## mainHolidayList.read_json WORKS
+mainHolidayList.read_json('holiday_startercode.txt')
+
+print(len(mainHolidayList.innerHolidays))
+
+for x in mainHolidayList.innerHolidays:
+    print(x)
 ######TESTING#######
 
 
