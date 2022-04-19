@@ -56,12 +56,12 @@ class HolidayList:
         # Make sure holidayObj is an Holiday Object by checking the type
         print(f"Checking to see if '{holidayObj}' is a valid Holiday:")
         if type(holidayObj) == Holiday:
-            if holidayObj in self.innerHolidays:
+            if str(holidayObj) in self.innerHolidays:
                 print(f"Looks like {holidayObj} is already on the list!")
         # Use innerHolidays.append(holidayObj) to add holiday
             else:
                 print(f"'{holidayObj}' has been validated!")
-                self.innerHolidays.append(holidayObj)
+                self.innerHolidays.append(str(holidayObj))
                 print(f"'{holidayObj}' has been added to the Holiday List!") 
         else:
             print(f"'{holidayObj}' isn't working... Please make sure that you're adding a Holiday Object and not something else.")
@@ -69,17 +69,18 @@ class HolidayList:
     ## findHoliday:  ## NOT WORKING, COME BACK LATER!!!!!!!!!*****************************************
     def findHoliday(self, HolidayName, date):
         holidayObj = Holiday(HolidayName, date)
-        if holidayObj in self.innerHolidays:
-            print(f'Searching for {holidayObj}:')
-        # Find Holiday in innerHolidays
+        print(f'Searching for {holidayObj}:')
+        if str(holidayObj) in self.innerHolidays:
+            # Find Holiday in innerHolidays
+            print(f'{holidayObj} found!')
             # Return Holiday
             return holidayObj
         else:
-            print(f'{holidayObj} does not appear to be on our list... Please check your input or try adding it.')
+            print(f"'{holidayObj}' does not appear to be on our list... Please check your input or try adding it.")
 
-
-    def read_json(self, filelocation):  ####  WORKS!!!
-#         # Read in things from json file location
+    ## read_json: ##  WORKS!!!
+    def read_json(self, filelocation):  ##  WORKS!!!
+        # Read in things from json file location
         f = open(filelocation)
         holidayInfo = json.load(f)
         # print(holidayInfo) ## test
@@ -91,6 +92,11 @@ class HolidayList:
             self.addHoliday(newHoliday)
         f.close()
 
+
+    ## numHolidays: ## WORKS!!
+    def numHolidays(self):
+        return len(self.innerHolidays)
+        # Return the total number of holidays in innerHolidays
             
 
 
@@ -106,29 +112,35 @@ halloween = Holiday('Halloween', '2022-10-31')
 print(halloween)
 print(Holiday.get_Holiday_date(halloween))
 print(Holiday.get_Holiday_name(xmas))
-
+halloween2 = Holiday('Halloween', '2022-10-31')
 ## test(HolidayList class): ## HolidayList class WORKS
 print(len(mainHolidayList.innerHolidays))
 mainHolidayList.addHoliday(halloween)
 mainHolidayList.addHoliday(xmas)
 print(len(mainHolidayList.innerHolidays))
-mainHolidayList.addHoliday(halloween)
+print('****TEST FLAG****')
+mainHolidayList.addHoliday(halloween2) ##FAIL, adds halloween again.
+print('****TEST FLAG****')
 print(len(mainHolidayList.innerHolidays))
 festivus = Holiday('Festivus', '2022-12-23')
 mainHolidayList.addHoliday(festivus)
 print(len(mainHolidayList.innerHolidays))
 
-## test mainHolidayList.findHoliday: ## mainHolidayList.findHoliday WORKS
+## test mainHolidayList.findHoliday: ## mainHolidayList.findHoliday 
+print('****TEST FLAG****')
 mainHolidayList.findHoliday('Festivus', '2022-12-23') ###not working...
-
-##test mainHolidayList.read_json: ## mainHolidayList.read_json WORKS
+print('****TEST FLAG****')
+##test mainHolidayList.read_json: ## mainHolidayList.read_json WORKS!!
 mainHolidayList.read_json('holiday_startercode.txt')
 
-print(len(mainHolidayList.innerHolidays))
+## test mainHolidayList.numHolidays(): mainHolidayList.numHolidays() WORKS!!
+print(mainHolidayList.numHolidays())
 
 for x in mainHolidayList.innerHolidays:
     print(x)
-######TESTING#######
+
+for index, holiday in enumerate(mainHolidayList.innerHolidays):
+  print(f'{index}: {holiday}')
 
 
 
