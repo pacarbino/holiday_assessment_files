@@ -17,16 +17,13 @@ from dataclasses import dataclass
 
 class Holiday:
     """Holiday Class"""
-    
+
     def __init__(self, name, date): ##call constructor to turn string date into datetime object.
         #Your Code Here 
-        dateFormat = '%Y-%m-%d'
-        newDate = dt.strptime(date,dateFormat)
-        # print (newDate.strftime("%B %d, %Y"))
         # if type(dateFormat) != datetime.datetime:
         #     print("Please enter a valid date in the format: 'yyyy-mm-dd'.")
         self.__name = name
-        self.__date = newDate.strftime('%B %d, %Y')
+        self.__date = dt.strptime(date,'%Y-%m-%d').strftime('%B %d, %Y')
 
     def get_Holiday_name(self):
         return self.__name
@@ -94,8 +91,8 @@ class HolidayList:
 
     ## numHolidays: ## WORKS!!
     def numHolidays(self):
-        return len(self.innerHolidays)
         # Return the total number of holidays in innerHolidays
+        return len(self.innerHolidays)
 
     ## removeHoliday: ##WORKS!!
     def removeHoliday(self, HolidayName, Date):
@@ -130,7 +127,7 @@ mainHolidayList.addHoliday(halloween)
 mainHolidayList.addHoliday(xmas)
 print(len(mainHolidayList.innerHolidays))
 print('****TEST FLAG****')
-mainHolidayList.addHoliday(halloween2) ##FAIL, adds halloween again.
+mainHolidayList.addHoliday(halloween2) ##FIXED!! append str(holidayObj), not holidayObj.
 print('****TEST FLAG****')
 print(len(mainHolidayList.innerHolidays))
 festivus = Holiday('Festivus', '2022-12-23')
