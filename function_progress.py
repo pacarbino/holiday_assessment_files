@@ -58,7 +58,7 @@ class HolidayList:
         if type(holidayObj) == Holiday:
             if str(holidayObj) in self.innerHolidays:
                 print(f"Looks like {holidayObj} is already on the list!")
-        # Use innerHolidays.append(holidayObj) to add holiday
+            # Use innerHolidays.append(holidayObj) to add holiday
             else:
                 print(f"'{holidayObj}' has been validated!")
                 self.innerHolidays.append(str(holidayObj))
@@ -92,11 +92,22 @@ class HolidayList:
             self.addHoliday(newHoliday)
         f.close()
 
-
     ## numHolidays: ## WORKS!!
     def numHolidays(self):
         return len(self.innerHolidays)
         # Return the total number of holidays in innerHolidays
+
+    ## removeHoliday: ##WORKS!!
+    def removeHoliday(self, HolidayName, Date):
+        holidayObj = Holiday(HolidayName, Date)
+        print(f'Searching for {holidayObj}:')
+    # Find Holiday in innerHolidays by searching the name and date combination.
+        if str(holidayObj) in self.innerHolidays:
+            print(f'{holidayObj} found: Removing {holidayObj} from list:')
+            # remove the Holiday from innerHolidays
+            self.innerHolidays.remove(str(holidayObj))
+            # inform user you deleted the holiday
+            print(f'{holidayObj} removed!')
             
 
 
@@ -128,7 +139,7 @@ print(len(mainHolidayList.innerHolidays))
 
 ## test mainHolidayList.findHoliday: ## mainHolidayList.findHoliday 
 print('****TEST FLAG****')
-mainHolidayList.findHoliday('Festivus', '2022-12-23') ###not working...
+mainHolidayList.findHoliday('Festivus', '2022-12-23') ### working!! (added str(holidayObj))
 print('****TEST FLAG****')
 ##test mainHolidayList.read_json: ## mainHolidayList.read_json WORKS!!
 mainHolidayList.read_json('holiday_startercode.txt')
@@ -140,19 +151,16 @@ for x in mainHolidayList.innerHolidays:
     print(x)
 
 for index, holiday in enumerate(mainHolidayList.innerHolidays):
-  print(f'{index}: {holiday}')
+    print(f'{index}: {holiday}')
+
+## test removeHoliday:
+mainHolidayList.removeHoliday('Halloween', '2022-10-31')
+
+for index, holiday in enumerate(mainHolidayList.innerHolidays):
+    print(f'{index}: {holiday}')
 
 
 
-
-#     def removeHoliday(HolidayName, Date):
-#         # Find Holiday in innerHolidays by searching the name and date combination.
-#         # remove the Holiday from innerHolidays
-#         # inform user you deleted the holiday
-
-#     def read_json(filelocation):
-#         # Read in things from json file location
-#         # Use addHoliday function to add holidays to inner list.
 
 #     def save_to_json(filelocation):
 #         # Write out json file to selected file.
