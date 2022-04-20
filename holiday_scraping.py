@@ -21,9 +21,19 @@ soup = bs(html, 'html.parser')
 # table = soup.find('section', attrs = {'class':'table-data__table'})
 # print(table)
 # for row in table.find_all('th'):
+holidays = []
+dateSoup = soup.find('tbody')
+# print(dateSoup)
+dates = dateSoup.find_all('th', attrs = {'class':'nw'})
 
-dateSoup = soup.find_all_next('th', attrs = {'class':'nw'})
-print(dateSoup.text)
+# for i in dates: 
+print(dates)
+# for item in dateSoup.find_all('tr', attrs = {'class':'showrow'}):
+#     holiday = {}
+#     holiday['date'] = item.find('th').text
+#     holidays.append(holiday)
+# print(holidays)    
+    
 
 ###########################################################################################
 # class Holiday:

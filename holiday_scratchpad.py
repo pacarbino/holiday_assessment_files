@@ -105,7 +105,7 @@ class HolidayList:
 # HolidayList.addHoliday(holiday1)  ###TEST VVV
 # HolidayList.addHoliday(holiday2)
 # HolidayList.addHoliday(halloween)
-HolidayList.addHoliday[Holiday("Festivus","2022-12-23")]
+HolidayList.addHoliday(Holiday("Festivus","2022-12-23"))
 # HolidayList.findHoliday("Festivus","2022-12-23")
 print(HolidayList)
 

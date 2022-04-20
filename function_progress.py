@@ -173,9 +173,6 @@ for index, holiday in enumerate(mainHolidayList.innerHolidays):
 #         # Add non-duplicates to innerHolidays
 #         # Handle any exceptions.     
 
-#     def numHolidays():
-#         # Return the total number of holidays in innerHolidays
-    
 #     def filter_holidays_by_week(year, week_number):
 #         # Use a Lambda function to filter by week number and save this as holidays, use the filter on innerHolidays
 #         # Week number is part of the the Datetime object
