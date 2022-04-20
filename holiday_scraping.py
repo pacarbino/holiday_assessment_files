@@ -28,18 +28,22 @@ soup = bs(html, 'html.parser')
 holidays = []
 dateSoup = soup.find('tbody')
 # print(dateSoup)
-dates = dateSoup.find_all('th', attrs = {'class':'nw'})
-for date in dates:
-    holidayDates = {}
-    holidayDates['date'] = date.get_text()
-    print(holidayDates)
 
 names = dateSoup.find_all('a')
 for name in names:
     holidayNames = {}
-    holidayNames['names'] = name.get_text()
-    print(holidayNames)
+    holidayNames['name'] = name.get_text()
+    holidays.append(holidayNames)
+    # print(holidayNames)
+dates = dateSoup.find_all('th', attrs = {'class':'nw'})
+for date in dates:
+    holidayDates = {}
+    holidayDates['date'] = date.get_text()
+    holidays.append(holidayDates)
+    # print(holidayDates)
 # for i in dates: 
+# print(holidayDates)
+print(holidays)
 
 # for item in dateSoup.find_all('tr', attrs = {'class':'showrow'}):
 #     holiday = {}
