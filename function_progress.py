@@ -156,6 +156,10 @@ mainHolidayList.removeHoliday('Halloween', '2022-10-31')
 for index, holiday in enumerate(mainHolidayList.innerHolidays):
     print(f'{index}: {holiday}')
 
+## re test add holiday:
+mainHolidayList.addHoliday(Holiday('Halloween', '2022-10-31'))
+for index, holiday in enumerate(mainHolidayList.innerHolidays):
+    print(f'{index}: {holiday}')
 
 
 
