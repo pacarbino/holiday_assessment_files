@@ -35,7 +35,8 @@ class Holiday:
     def __str__(self): ##make sure date is in the right format.
         # String output
         # Holiday output when printed.
-        return f"{self.__name} : {self.__date}"
+        # return f"{self.__name} : {self.__date}"
+        return f"{{'name:' '{self.__name}', 'date:' '{self.__date}'}}"
           
            
 # -------------------------------------------
@@ -55,7 +56,7 @@ class HolidayList:
         print(f"Checking to see if '{holidayObj}' is a valid Holiday:")
         if type(holidayObj) == Holiday:
             if str(holidayObj) in self.innerHolidays:
-                print(f"Looks like {holidayObj} is already on the list!")
+                print(f"Looks like '{holidayObj}' is already on the list!")
             # Use innerHolidays.append(holidayObj) to add holiday
             else:
                 print(f"'{holidayObj}' has been validated!")
@@ -91,7 +92,12 @@ class HolidayList:
             name = list(x.values())[0]
             date = list(x.values())[1]
             newHoliday = Holiday(name, date)
-            self.addHoliday(newHoliday)
+            if str(newHoliday) in self.innerHolidays:
+                print(print(f"Looks like '{newHoliday}' is already on the list!"))
+            # self.addHoliday(newHoliday) ##old code line, appending directly instead of using 'addHoliday()' seems to be more efficient.
+            else:
+                self.innerHolidays.append(str(newHoliday))
+                print(f"'{newHoliday}' has been added to the Holiday List!")
         f.close()
 
     ## numHolidays: ## WORKS!!
@@ -143,13 +149,13 @@ class HolidayList:
                 # holidayObj = f'{{"name": {holidayInfo[2]},"date": {holidayInfo[0]}}}'
                 # Check to see if name and date of holiday is in innerHolidays array
                 if (str(holidayObj)) in self.innerHolidays:
-                    print(f"Looks like {holidayObj} is already on the list!")
+                    print(f"Looks like '{holidayObj}' is already on the list!")
             # Use innerHolidays.append(holidayObj) to add holiday
                 else:
-                    print(f"'{holidayObj}' has been validated!")
                     # Add non-duplicates to innerHolidays
                     self.innerHolidays.append(str(holidayObj))
                     print(f"'{holidayObj}' has been added to the Holiday List!")
+                    # self.save_to_json('holidays.txt', self.innerHolidays) #### TEST
                 ######################################################
 
 #         # Remember, 2 previous years, current year, and 2  years into the future. You can scrape multiple years by adding year to the timeanddate URL. For example https://www.timeanddate.com/holidays/us/2022
@@ -160,7 +166,27 @@ class HolidayList:
 
 ######TESTING#######
 
-mainHolidayList = HolidayList() ### MUST ADD INSTANCE OF CLASS!!! (mainHolidayList is an instance of HolidayList. Without that, you have plans, but no actual object with any of the properties.)
+# mainHolidayList = HolidayList() ### MUST ADD INSTANCE OF CLASS!!! (mainHolidayList is an instance of HolidayList. Without that, you have plans, but no actual object with any of the properties.)
+def main():
+#     # Large Pseudo Code steps
+#     # -------------------------------------
+#     # 1. Initialize HolidayList Object
+    mainHolidayList = HolidayList() 
+#     # 2. Load JSON file via HolidayList read_json function
+    mainHolidayList.read_json('holiday_startercode.txt')
+#     # 3. Scrape additional holidays using your HolidayList scrapeHolidays function.
+    mainHolidayList.holidayScraper('https://www.timeanddate.com/holidays/us/')
+    mainHolidayList.save_to_json('holidays.txt', mainHolidayList.innerHolidays)
+#     # 3. Create while loop for user to keep adding or working with the Calender
+
+#     # 4. Display User Menu (Print the menu)
+#     # 5. Take user input for their action based on Menu and check the user input for errors
+#     # 6. Run appropriate method from the HolidayList object depending on what the user input is
+#     # 7. Ask the User if they would like to Continue, if not, end the while loop, ending the program.  If they do wish to continue, keep the program going. 
+main()
+
+# if __name__ == "__main__":
+#     main();
 
 ######TESTING#######
 ## test Holiday class: ## Holiday class WORKS
@@ -188,14 +214,17 @@ mainHolidayList = HolidayList() ### MUST ADD INSTANCE OF CLASS!!! (mainHolidayLi
 # mainHolidayList.findHoliday('Festivus', '2022-12-23') ### working!! (added str(holidayObj))
 # print('****TEST FLAG****')
 ##test mainHolidayList.read_json: ## mainHolidayList.read_json WORKS!!
-mainHolidayList.read_json('holiday_startercode.txt')
-print('***FLAG!!***')
+# mainHolidayList.read_json('holiday_startercode.txt')  #### ADDED TO INTRFACE MAIN
+# print('***FLAG!!***')
 
+# print('***ANOTHER FLAG!!***')
+# mainHolidayList.read_json('holidays.txt')  ### TEST (not working)
+# print('***ANOTHER FLAG!!***')
 ## test mainHolidayList.numHolidays(): mainHolidayList.numHolidays() WORKS!!
-print(mainHolidayList.numHolidays())
+# print(mainHolidayList.numHolidays())
 
-for x in mainHolidayList.innerHolidays:
-    print(x)
+# for x in mainHolidayList.innerHolidays:
+#     print(x)
 
 # for index, holiday in enumerate(mainHolidayList.innerHolidays):
 #     print(f'{index}: {holiday}')
@@ -211,11 +240,11 @@ for x in mainHolidayList.innerHolidays:
 # for index, holiday in enumerate(mainHolidayList.innerHolidays):
 #     print(f'{index}: {holiday}')
 
-mainHolidayList.holidayScraper('https://www.timeanddate.com/holidays/us/')
-print('***FLAG***')
-print(mainHolidayList.innerHolidays)
-print('***FLAG***')
-mainHolidayList.save_to_json('holidays.txt', mainHolidayList.innerHolidays)
+# mainHolidayList.holidayScraper('https://www.timeanddate.com/holidays/us/')
+# print('***FLAG***')
+# print(mainHolidayList.innerHolidays)
+# print('***FLAG***')
+# mainHolidayList.save_to_json('holidays.txt', mainHolidayList.innerHolidays)
 
     # def save_to_json(self, filelocation, list):
     #     # Write out json file to selected file.
