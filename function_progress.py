@@ -92,12 +92,12 @@ class HolidayList:
             name = list(x.values())[0]
             date = list(x.values())[1]
             newHoliday = Holiday(name, date)
-            if str(newHoliday) in self.innerHolidays:
-                print(print(f"Looks like '{newHoliday}' is already on the list!"))
+            if str(newHoliday) not in self.innerHolidays:
+                # print(print(f"Looks like '{newHoliday}' is already on the list!"))
             # self.addHoliday(newHoliday) ##old code line, appending directly instead of using 'addHoliday()' seems to be more efficient.
-            else:
+            # else:
                 self.innerHolidays.append(str(newHoliday))
-                print(f"'{newHoliday}' has been added to the Holiday List!")
+                # print(f"'{newHoliday}' has been added to the Holiday List!")
         f.close()
 
     ## numHolidays: ## WORKS!!
@@ -156,13 +156,13 @@ class HolidayList:
 
                 # holidayObj = f'{{"name": {holidayInfo[2]},"date": {holidayInfo[0]}}}'
                 # Check to see if name and date of holiday is in innerHolidays array
-                if (str(holidayObj)) in self.innerHolidays:
-                    print(f"Looks like '{holidayObj}' is already on the list!")
+                if (str(holidayObj)) not in self.innerHolidays:
+                    # print(f"Looks like '{holidayObj}' is already on the list!")
             # Use innerHolidays.append(holidayObj) to add holiday
-                else:
+                # else:
                     # Add non-duplicates to innerHolidays
                     self.innerHolidays.append(str(holidayObj))
-                    print(f"'{holidayObj}' has been added to the Holiday List!")
+                    # print(f"'{holidayObj}' has been added to the Holiday List!")
                     # self.save_to_json('holidays.txt', self.innerHolidays) #### TEST
                     ######################################################################################################################
     
@@ -171,15 +171,65 @@ class HolidayList:
 
 
 
-
+mainHolidayList = HolidayList() 
 ######TESTING#######
+
+def menu():
+    
+    def choose():
+        options = ['1', '2', '3', '4', '5']
+        print('''
+        =============================================
+        Hello! Welcome to the Holiday List Interface.
+        =============================================
+
+        Menu:
+
+        1) Add Holiday
+        2) Remove Holiday
+        3) Save Holiday List
+        4) View Holidays
+        5) Exit
+        ''')
+        choice = input("What would you like to do? (Select 1-5 for Menu Choice): ")
+        if choice in options:
+            if choice == '1':
+                print("You have selected 'Add Holiday'")
+                name = input("What is the name of the holiday you'd like to add?: " )
+                date = input("what is the date of the holiday you'd like to add? (Please write date in 'YYYY-MM-DD' format): ")
+                holidayObj = Holiday(name, date)
+                mainHolidayList.addHoliday(holidayObj)
+
+            if choice == '2':
+                print("You have selected 'Remove Holiday'")
+                name = input("What is the name of the holiday you'd like to remove?: " )
+                date = input("what is the date of the holiday you'd like to remove? (Please write date in 'YYYY-MM-DD' format): ")
+                mainHolidayList.removeHoliday(name, date)
+
+            if choice == '3':
+                print("You have selected 'Save Holiday List'")
+                fileLocation = input("What would you like the name of the file location to be?: ")
+                mainHolidayList.save_to_json(fileLocation, mainHolidayList.innerHolidays)
+
+            if choice == '5':
+                answer = input("Are you sure you want to exit?: [Y or N]").upper()
+                if answer == 'Y':
+                    exit = True
+                    return exit
+                    
+            choose()
+    exit = False
+    while exit == False:        
+        choose()
+
+
 
 # mainHolidayList = HolidayList() ### MUST ADD INSTANCE OF CLASS!!! (mainHolidayList is an instance of HolidayList. Without that, you have plans, but no actual object with any of the properties.)
 def main():
 #     # Large Pseudo Code steps
 #     # -------------------------------------
 #     # 1. Initialize HolidayList Object
-    mainHolidayList = HolidayList() 
+    # mainHolidayList = HolidayList() 
 #     # 2. Load JSON file via HolidayList read_json function
     mainHolidayList.read_json('holiday_startercode.txt')
 #     # 3. Scrape additional holidays using your HolidayList scrapeHolidays function.
@@ -192,7 +242,8 @@ def main():
     mainHolidayList.save_to_json('holidays.txt', mainHolidayList.innerHolidays)
     mainHolidayList.save_to_json('holidays.json', mainHolidayList.innerHolidays)
 #     # 3. Create while loop for user to keep adding or working with the Calender
-
+    menu()
+    
 #     # 4. Display User Menu (Print the menu)
 #     # 5. Take user input for their action based on Menu and check the user input for errors
 #     # 6. Run appropriate method from the HolidayList object depending on what the user input is
