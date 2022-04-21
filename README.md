@@ -5,7 +5,7 @@ Main file right now is "function_progress", where I'm adding code as it seemingl
 
 "holiday_startercode" is the beginning file used to import and populate the innerHolidays list in the program. 
 
-"holidays" is the file that the json writer function writes the innerHolidays list to when called.
+"holidays" is the file that the json writer function writes the innerHolidays list to when called. I currently have  .txt as well as a .json version being made.
 
 "holiday_startercode_unaltered" is the pseudocode used to plan out the program. 
 

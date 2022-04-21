@@ -20,11 +20,11 @@ class Holiday:
 
     def __init__(self, name, date): ##call constructor to turn string date into datetime object.
         #Your Code Here 
-        # if type(dateFormat) != datetime.datetime:
+        # if type(date) != datetime.datetime:
         #     print("Please enter a valid date in the format: 'yyyy-mm-dd'.")
         self.__name = name
-        self.__date = date
-        # self.__date = dt.strptime(date,'%Y-%m-%d').strftime('%B %d, %Y')
+        # self.__date = date
+        self.__date = dt.strptime(date,'%Y-%m-%d')#.strftime('%B %d, %Y')
 
     def get_Holiday_name(self):
         return self.__name
@@ -128,13 +128,15 @@ class HolidayList:
         jsonFile.write(jsonString)
         jsonFile.close()
     
-    ## web scraper:
+    ## web scraper:  ### ADD YEAR AS PARAMETER  '%b %-d' current format, need year '%Y'
     # Scrape Holidays from https://www.timeanddate.com/holidays/us/ 
-    def holidayScraper(self, url):
-        def get_html(url):
-            response = requests.get(url)
+    def holidayScraper(self, url, year):     ############original function
+
+        new_url = f'{url}{year}'
+        def get_html(new_url): ### (original line)
+            response = requests.get(new_url)
             return response.text
-        html = get_html(url)    
+        html = get_html(new_url)    
         soup = bs(html, 'html.parser')
         holidaySoup = soup.find('tbody')     
         rows = holidaySoup.find_all('tr')
@@ -145,7 +147,13 @@ class HolidayList:
                 if len(holiday) < 3:
                     continue
                 ###################################################### test test
-                holidayObj = Holiday(holidayInfo[2], holidayInfo[0])
+                # holidayObj = Holiday(holidayInfo[2], holidayInfo[0])  ##### ADD YEAR  (ORIGINAL LINE, mostly works)
+                name = holidayInfo[2]
+                date = f'{holidayInfo[0]}, {year}'
+                
+                correctDate = dt.strptime(date,'%b %d, %Y').strftime('%Y-%m-%d')
+                holidayObj = Holiday(name, correctDate) ##### test line
+
                 # holidayObj = f'{{"name": {holidayInfo[2]},"date": {holidayInfo[0]}}}'
                 # Check to see if name and date of holiday is in innerHolidays array
                 if (str(holidayObj)) in self.innerHolidays:
@@ -156,8 +164,8 @@ class HolidayList:
                     self.innerHolidays.append(str(holidayObj))
                     print(f"'{holidayObj}' has been added to the Holiday List!")
                     # self.save_to_json('holidays.txt', self.innerHolidays) #### TEST
-                ######################################################
-
+                    ######################################################################################################################
+    
 #         # Remember, 2 previous years, current year, and 2  years into the future. You can scrape multiple years by adding year to the timeanddate URL. For example https://www.timeanddate.com/holidays/us/2022
 #         # Handle any exceptions.     
 
@@ -175,8 +183,14 @@ def main():
 #     # 2. Load JSON file via HolidayList read_json function
     mainHolidayList.read_json('holiday_startercode.txt')
 #     # 3. Scrape additional holidays using your HolidayList scrapeHolidays function.
-    mainHolidayList.holidayScraper('https://www.timeanddate.com/holidays/us/')
+    mainHolidayList.holidayScraper('https://www.timeanddate.com/holidays/us/', '2020')
+    mainHolidayList.holidayScraper('https://www.timeanddate.com/holidays/us/', '2021')
+    mainHolidayList.holidayScraper('https://www.timeanddate.com/holidays/us/', '2022')
+    mainHolidayList.holidayScraper('https://www.timeanddate.com/holidays/us/', '2023')
+    mainHolidayList.holidayScraper('https://www.timeanddate.com/holidays/us/', '2025')
+        ## write json file
     mainHolidayList.save_to_json('holidays.txt', mainHolidayList.innerHolidays)
+    mainHolidayList.save_to_json('holidays.json', mainHolidayList.innerHolidays)
 #     # 3. Create while loop for user to keep adding or working with the Calender
 
 #     # 4. Display User Menu (Print the menu)
