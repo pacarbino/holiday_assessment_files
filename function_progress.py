@@ -3,7 +3,7 @@ from datetime import timedelta
 from datetime import datetime as dt
 import itertools
 import json
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup as bs
 import requests
 from dataclasses import dataclass
 
@@ -23,7 +23,8 @@ class Holiday:
         # if type(dateFormat) != datetime.datetime:
         #     print("Please enter a valid date in the format: 'yyyy-mm-dd'.")
         self.__name = name
-        self.__date = dt.strptime(date,'%Y-%m-%d').strftime('%B %d, %Y')
+        self.__date = date
+        # self.__date = dt.strptime(date,'%Y-%m-%d').strftime('%B %d, %Y')
 
     def get_Holiday_name(self):
         return self.__name
@@ -59,11 +60,15 @@ class HolidayList:
             else:
                 print(f"'{holidayObj}' has been validated!")
                 self.innerHolidays.append(str(holidayObj))
-                print(f"'{holidayObj}' has been added to the Holiday List!") 
+                print(f"'{holidayObj}' has been added to the Holiday List!")
+################################################################################
+
+################################################################################
+
         else:
             print(f"'{holidayObj}' isn't working... Please make sure that you're adding a Holiday Object and not something else.")
     
-    ## findHoliday:  ## NOT WORKING, COME BACK LATER!!!!!!!!!*****************************************
+    ## findHoliday: 
     def findHoliday(self, HolidayName, date):
         holidayObj = Holiday(HolidayName, date)
         print(f'Searching for {holidayObj}:')
@@ -105,7 +110,51 @@ class HolidayList:
             self.innerHolidays.remove(str(holidayObj))
             # inform user you deleted the holiday
             print(f'{holidayObj} removed!')
-            
+        else:
+            print(f'{holidayObj} does not appear to be on our list.')
+
+    ## save_to_json:
+    def save_to_json(self, filelocation, list):
+        # Write out json file to selected file.
+        data = list
+        jsonString = json.dumps(data)
+        jsonFile = open(filelocation, "w")
+        jsonFile.write(jsonString)
+        jsonFile.close()
+    
+    ## web scraper:
+    # Scrape Holidays from https://www.timeanddate.com/holidays/us/ 
+    def holidayScraper(self, url):
+        def get_html(url):
+            response = requests.get(url)
+            return response.text
+        html = get_html(url)    
+        soup = bs(html, 'html.parser')
+        holidaySoup = soup.find('tbody')     
+        rows = holidaySoup.find_all('tr')
+        for holiday in rows:
+            holidayInfo = holiday.get_text("|").split("|")
+            # print(holidayInfo)
+            for holiday in holidayInfo[1:]:
+                if len(holiday) < 3:
+                    continue
+                ###################################################### test test
+                holidayObj = Holiday(holidayInfo[2], holidayInfo[0])
+                # holidayObj = f'{{"name": {holidayInfo[2]},"date": {holidayInfo[0]}}}'
+                # Check to see if name and date of holiday is in innerHolidays array
+                if (str(holidayObj)) in self.innerHolidays:
+                    print(f"Looks like {holidayObj} is already on the list!")
+            # Use innerHolidays.append(holidayObj) to add holiday
+                else:
+                    print(f"'{holidayObj}' has been validated!")
+                    # Add non-duplicates to innerHolidays
+                    self.innerHolidays.append(str(holidayObj))
+                    print(f"'{holidayObj}' has been added to the Holiday List!")
+                ######################################################
+
+#         # Remember, 2 previous years, current year, and 2  years into the future. You can scrape multiple years by adding year to the timeanddate URL. For example https://www.timeanddate.com/holidays/us/2022
+#         # Handle any exceptions.     
+
 
 
 
@@ -115,31 +164,32 @@ mainHolidayList = HolidayList() ### MUST ADD INSTANCE OF CLASS!!! (mainHolidayLi
 
 ######TESTING#######
 ## test Holiday class: ## Holiday class WORKS
-xmas = Holiday('Christmas', '2022-12-25') ### these will be made internally with json import
-halloween = Holiday('Halloween', '2022-10-31')
-print(halloween)
-print(Holiday.get_Holiday_date(halloween))
-print(Holiday.get_Holiday_name(xmas))
-halloween2 = Holiday('Halloween', '2022-10-31')
+# xmas = Holiday('Christmas', '2022-12-25') ### these will be made internally with json import
+# halloween = Holiday('Halloween', '2022-10-31')
+# print(halloween)
+# print(Holiday.get_Holiday_date(halloween))
+# print(Holiday.get_Holiday_name(xmas))
+# halloween2 = Holiday('Halloween', '2022-10-31')
 ## test(HolidayList class): ## HolidayList class WORKS
-print(len(mainHolidayList.innerHolidays))
-mainHolidayList.addHoliday(halloween)
-mainHolidayList.addHoliday(xmas)
-print(len(mainHolidayList.innerHolidays))
-print('****TEST FLAG****')
-mainHolidayList.addHoliday(halloween2) ##FIXED!! append str(holidayObj), not holidayObj.
-print('****TEST FLAG****')
-print(len(mainHolidayList.innerHolidays))
-festivus = Holiday('Festivus', '2022-12-23')
-mainHolidayList.addHoliday(festivus)
-print(len(mainHolidayList.innerHolidays))
+# print(len(mainHolidayList.innerHolidays))
+# mainHolidayList.addHoliday(halloween)
+# mainHolidayList.addHoliday(xmas)
+# print(len(mainHolidayList.innerHolidays))
+# print('****TEST FLAG****')
+# mainHolidayList.addHoliday(halloween2) ##FIXED!! append str(holidayObj), not holidayObj.
+# print('****TEST FLAG****')
+# print(len(mainHolidayList.innerHolidays))
+# festivus = Holiday('Festivus', '2022-12-23')
+# mainHolidayList.addHoliday(festivus)
+# print(len(mainHolidayList.innerHolidays))
 
 ## test mainHolidayList.findHoliday: ## mainHolidayList.findHoliday 
-print('****TEST FLAG****')
-mainHolidayList.findHoliday('Festivus', '2022-12-23') ### working!! (added str(holidayObj))
-print('****TEST FLAG****')
+# print('****TEST FLAG****')
+# mainHolidayList.findHoliday('Festivus', '2022-12-23') ### working!! (added str(holidayObj))
+# print('****TEST FLAG****')
 ##test mainHolidayList.read_json: ## mainHolidayList.read_json WORKS!!
 mainHolidayList.read_json('holiday_startercode.txt')
+print('***FLAG!!***')
 
 ## test mainHolidayList.numHolidays(): mainHolidayList.numHolidays() WORKS!!
 print(mainHolidayList.numHolidays())
@@ -147,24 +197,33 @@ print(mainHolidayList.numHolidays())
 for x in mainHolidayList.innerHolidays:
     print(x)
 
-for index, holiday in enumerate(mainHolidayList.innerHolidays):
-    print(f'{index}: {holiday}')
+# for index, holiday in enumerate(mainHolidayList.innerHolidays):
+#     print(f'{index}: {holiday}')
 
 ## test removeHoliday:
-mainHolidayList.removeHoliday('Halloween', '2022-10-31')
+# mainHolidayList.removeHoliday('Halloween', '2022-10-31')
 
-for index, holiday in enumerate(mainHolidayList.innerHolidays):
-    print(f'{index}: {holiday}')
+# for index, holiday in enumerate(mainHolidayList.innerHolidays):
+    # print(f'{index}: {holiday}')
 
 ## re test add holiday:
-mainHolidayList.addHoliday(Holiday('Halloween', '2022-10-31'))
-for index, holiday in enumerate(mainHolidayList.innerHolidays):
-    print(f'{index}: {holiday}')
+# mainHolidayList.addHoliday(Holiday('Halloween', '2022-10-31'))
+# for index, holiday in enumerate(mainHolidayList.innerHolidays):
+#     print(f'{index}: {holiday}')
 
+mainHolidayList.holidayScraper('https://www.timeanddate.com/holidays/us/')
+print('***FLAG***')
+print(mainHolidayList.innerHolidays)
+print('***FLAG***')
+mainHolidayList.save_to_json('holidays.txt', mainHolidayList.innerHolidays)
 
-
-#     def save_to_json(filelocation):
-#         # Write out json file to selected file.
+    # def save_to_json(self, filelocation, list):
+    #     # Write out json file to selected file.
+    #     data = list
+    #     jsonString = json.dumps(data)
+    #     jsonFile = open(filelocation, "w")
+    #     jsonFile.write(jsonString)
+    #     jsonFile.close()
         
 #     def scrapeHolidays():
 #         # Scrape Holidays from https://www.timeanddate.com/holidays/us/ 

@@ -22,13 +22,11 @@ soup = bs(html, 'html.parser')
 # print(soup.prettify())
 
 
-# table = soup.find('section', attrs = {'class':'table-data__table'})
-# print(table)
-# for row in table.find_all('th'):
+
 holidays = []
 dateSoup = soup.find('tbody')
 # print(dateSoup)
-
+### vvvvvvvvvvvvvvvvvvvvvSORT OF WORK, DON'T MESS UP!!vvvvvvvvvvvvvvvv#########
 names = dateSoup.find_all('a')
 for name in names:
     holidayNames = {}
@@ -41,13 +39,22 @@ for date in dates:
     holidayDates['date'] = date.get_text()
     holidays.append(holidayDates)
     # print(holidayDates)
-# for i in dates: 
-# print(holidayDates)
-print(holidays)
+### ^^^^^^^^^^^^^^^^^^^^^^SORT OF WORK, DON'T MESS UP!!#########^^^^^^^^^^^^^
+# print(holidays)
 
-# for item in dateSoup.find_all('tr', attrs = {'class':'showrow'}):
-#     holiday = {}
-#     holiday['date'] = item.find('th').text
-#     holidays.append(holiday)
-# print(holidays)    
-    
+
+rows = dateSoup.find_all('tr')
+print(type(rows))
+print(rows[0])
+print(rows[1])
+print(rows[2])
+print(rows[3])
+print(rows[4])
+print(rows[5])
+print(rows[6])
+print(rows[7])
+print(rows[8])
+print(rows[9])
+print(rows[10])
+print(rows[11])
+print(rows[12])
