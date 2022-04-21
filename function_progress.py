@@ -14,7 +14,7 @@ from dataclasses import dataclass
 # 2. You may need to add additional functions
 # 3. You may drop the init if you are using @dataclasses
 # --------------------------------------------
-
+##################################################################################################
 class Holiday:
     """Holiday Class"""
 
@@ -37,21 +37,21 @@ class Holiday:
         # Holiday output when printed.
         # return f"{self.__name} : {self.__date}"
         return f"{{'name:' '{self.__name}', 'date:' '{self.__date}'}}"
-          
+#############################################################################################          
            
 # -------------------------------------------
 # The HolidayList class acts as a wrapper and container
 # For the list of holidays
 # Each method has pseudo-code instructions
 # --------------------------------------------
+#############################################################################################
 class HolidayList:
     ## __init__:
     def __init__(self):
         self.innerHolidays = []
-   
-    
+       
     ## addHoliday:
-    def addHoliday(self, holidayObj): ## WORKS!!
+    def addHoliday(self, holidayObj): ## WORKS!!        ####### invalid entry breaks interface, needs fixing!!!!!!!!!!!!!
         # Make sure holidayObj is an Holiday Object by checking the type
         print(f"Checking to see if '{holidayObj}' is a valid Holiday:")
         if type(holidayObj) == Holiday:
@@ -62,10 +62,6 @@ class HolidayList:
                 print(f"'{holidayObj}' has been validated!")
                 self.innerHolidays.append(str(holidayObj))
                 print(f"'{holidayObj}' has been added to the Holiday List!")
-################################################################################
-
-################################################################################
-
         else:
             print(f"'{holidayObj}' isn't working... Please make sure that you're adding a Holiday Object and not something else.")
     
@@ -109,7 +105,7 @@ class HolidayList:
     def removeHoliday(self, HolidayName, Date):
         holidayObj = Holiday(HolidayName, Date)
         print(f'Searching for {holidayObj}:')
-    # Find Holiday in innerHolidays by searching the name and date combination.
+        # Find Holiday in innerHolidays by searching the name and date combination.
         if str(holidayObj) in self.innerHolidays:
             print(f'{holidayObj} found: Removing {holidayObj} from list:')
             # remove the Holiday from innerHolidays
@@ -130,10 +126,9 @@ class HolidayList:
     
     ## web scraper:  ### ADD YEAR AS PARAMETER  '%b %-d' current format, need year '%Y'
     # Scrape Holidays from https://www.timeanddate.com/holidays/us/ 
-    def holidayScraper(self, url, year):     ############original function
-
+    def holidayScraper(self, url, year):     
         new_url = f'{url}{year}'
-        def get_html(new_url): ### (original line)
+        def get_html(new_url): 
             response = requests.get(new_url)
             return response.text
         html = get_html(new_url)    
@@ -146,25 +141,19 @@ class HolidayList:
             for holiday in holidayInfo[1:]:
                 if len(holiday) < 3:
                     continue
-                ###################################################### test test
-                # holidayObj = Holiday(holidayInfo[2], holidayInfo[0])  ##### ADD YEAR  (ORIGINAL LINE, mostly works)
                 name = holidayInfo[2]
                 date = f'{holidayInfo[0]}, {year}'
                 
                 correctDate = dt.strptime(date,'%b %d, %Y').strftime('%Y-%m-%d')
-                holidayObj = Holiday(name, correctDate) ##### test line
-
-                # holidayObj = f'{{"name": {holidayInfo[2]},"date": {holidayInfo[0]}}}'
+                holidayObj = Holiday(name, correctDate) 
                 # Check to see if name and date of holiday is in innerHolidays array
                 if (str(holidayObj)) not in self.innerHolidays:
                     # print(f"Looks like '{holidayObj}' is already on the list!")
-            # Use innerHolidays.append(holidayObj) to add holiday
-                # else:
+                    # Use innerHolidays.append(holidayObj) to add holiday
                     # Add non-duplicates to innerHolidays
                     self.innerHolidays.append(str(holidayObj))
                     # print(f"'{holidayObj}' has been added to the Holiday List!")
-                    # self.save_to_json('holidays.txt', self.innerHolidays) #### TEST
-                    ######################################################################################################################
+######################################################################################################################
     
 #         # Remember, 2 previous years, current year, and 2  years into the future. You can scrape multiple years by adding year to the timeanddate URL. For example https://www.timeanddate.com/holidays/us/2022
 #         # Handle any exceptions.     
@@ -174,9 +163,7 @@ class HolidayList:
 mainHolidayList = HolidayList() 
 ######TESTING#######
 
-def menu():
-    
-    def choose():
+def choose():
         options = ['1', '2', '3', '4', '5']
         print('''
         =============================================
@@ -199,37 +186,43 @@ def menu():
                 date = input("what is the date of the holiday you'd like to add? (Please write date in 'YYYY-MM-DD' format): ")
                 holidayObj = Holiday(name, date)
                 mainHolidayList.addHoliday(holidayObj)
+                choose()
 
             if choice == '2':
                 print("You have selected 'Remove Holiday'")
                 name = input("What is the name of the holiday you'd like to remove?: " )
                 date = input("what is the date of the holiday you'd like to remove? (Please write date in 'YYYY-MM-DD' format): ")
                 mainHolidayList.removeHoliday(name, date)
+                choose()
 
             if choice == '3':
                 print("You have selected 'Save Holiday List'")
                 fileLocation = input("What would you like the name of the file location to be?: ")
+                print("Okay, saving file now...")
                 mainHolidayList.save_to_json(fileLocation, mainHolidayList.innerHolidays)
+                print("File saved!")
+                choose()
 
             if choice == '5':
-                answer = input("Are you sure you want to exit?: [Y or N]").upper()
+                answer = input("Are you sure you want to exit? [Y or N]: ").upper()
                 if answer == 'Y':
+                    print("So sad to see you go!")
                     exit = True
                     return exit
+                elif answer == 'N':
+                    print("Oh, okay, let's go back to the main menu:")
+                    choose()
                     
-            choose()
+
+def menu():
     exit = False
     while exit == False:        
-        choose()
-
-
-
-# mainHolidayList = HolidayList() ### MUST ADD INSTANCE OF CLASS!!! (mainHolidayList is an instance of HolidayList. Without that, you have plans, but no actual object with any of the properties.)
+        exit = choose()
+    
 def main():
 #     # Large Pseudo Code steps
 #     # -------------------------------------
-#     # 1. Initialize HolidayList Object
-    # mainHolidayList = HolidayList() 
+#     # 1. Initialize HolidayList Object  (Done Above)
 #     # 2. Load JSON file via HolidayList read_json function
     mainHolidayList.read_json('holiday_startercode.txt')
 #     # 3. Scrape additional holidays using your HolidayList scrapeHolidays function.
@@ -253,78 +246,14 @@ main()
 # if __name__ == "__main__":
 #     main();
 
-######TESTING#######
-## test Holiday class: ## Holiday class WORKS
-# xmas = Holiday('Christmas', '2022-12-25') ### these will be made internally with json import
-# halloween = Holiday('Halloween', '2022-10-31')
-# print(halloween)
-# print(Holiday.get_Holiday_date(halloween))
-# print(Holiday.get_Holiday_name(xmas))
-# halloween2 = Holiday('Halloween', '2022-10-31')
-## test(HolidayList class): ## HolidayList class WORKS
-# print(len(mainHolidayList.innerHolidays))
-# mainHolidayList.addHoliday(halloween)
-# mainHolidayList.addHoliday(xmas)
-# print(len(mainHolidayList.innerHolidays))
-# print('****TEST FLAG****')
-# mainHolidayList.addHoliday(halloween2) ##FIXED!! append str(holidayObj), not holidayObj.
-# print('****TEST FLAG****')
-# print(len(mainHolidayList.innerHolidays))
-# festivus = Holiday('Festivus', '2022-12-23')
-# mainHolidayList.addHoliday(festivus)
-# print(len(mainHolidayList.innerHolidays))
 
-## test mainHolidayList.findHoliday: ## mainHolidayList.findHoliday 
-# print('****TEST FLAG****')
-# mainHolidayList.findHoliday('Festivus', '2022-12-23') ### working!! (added str(holidayObj))
-# print('****TEST FLAG****')
-##test mainHolidayList.read_json: ## mainHolidayList.read_json WORKS!!
-# mainHolidayList.read_json('holiday_startercode.txt')  #### ADDED TO INTRFACE MAIN
-# print('***FLAG!!***')
 
-# print('***ANOTHER FLAG!!***')
-# mainHolidayList.read_json('holidays.txt')  ### TEST (not working)
-# print('***ANOTHER FLAG!!***')
-## test mainHolidayList.numHolidays(): mainHolidayList.numHolidays() WORKS!!
-# print(mainHolidayList.numHolidays())
 
-# for x in mainHolidayList.innerHolidays:
-#     print(x)
 
-# for index, holiday in enumerate(mainHolidayList.innerHolidays):
-#     print(f'{index}: {holiday}')
 
-## test removeHoliday:
-# mainHolidayList.removeHoliday('Halloween', '2022-10-31')
 
-# for index, holiday in enumerate(mainHolidayList.innerHolidays):
-    # print(f'{index}: {holiday}')
-
-## re test add holiday:
-# mainHolidayList.addHoliday(Holiday('Halloween', '2022-10-31'))
-# for index, holiday in enumerate(mainHolidayList.innerHolidays):
-#     print(f'{index}: {holiday}')
-
-# mainHolidayList.holidayScraper('https://www.timeanddate.com/holidays/us/')
-# print('***FLAG***')
-# print(mainHolidayList.innerHolidays)
-# print('***FLAG***')
-# mainHolidayList.save_to_json('holidays.txt', mainHolidayList.innerHolidays)
-
-    # def save_to_json(self, filelocation, list):
-    #     # Write out json file to selected file.
-    #     data = list
-    #     jsonString = json.dumps(data)
-    #     jsonFile = open(filelocation, "w")
-    #     jsonFile.write(jsonString)
-    #     jsonFile.close()
         
-#     def scrapeHolidays():
-#         # Scrape Holidays from https://www.timeanddate.com/holidays/us/ 
-#         # Remember, 2 previous years, current year, and 2  years into the future. You can scrape multiple years by adding year to the timeanddate URL. For example https://www.timeanddate.com/holidays/us/2022
-#         # Check to see if name and date of holiday is in innerHolidays array
-#         # Add non-duplicates to innerHolidays
-#         # Handle any exceptions.     
+### TO DO:
 
 #     def filter_holidays_by_week(year, week_number):
 #         # Use a Lambda function to filter by week number and save this as holidays, use the filter on innerHolidays
