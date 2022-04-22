@@ -20,10 +20,7 @@ class Holiday:
 
     def __init__(self, name, date): ##call constructor to turn string date into datetime object.
         #Your Code Here 
-        # if type(date) != datetime.datetime:
-        #     print("Please enter a valid date in the format: 'yyyy-mm-dd'.")
         self.__name = name
-        # self.__date = date
         self.__date = dt.strptime(date,'%Y-%m-%d')#.strftime('%B %d, %Y')
 
     def get_Holiday_name(self):
@@ -180,27 +177,45 @@ def choose():
         ''')
         choice = input("What would you like to do? (Select 1-5 for Menu Choice): ")
         if choice in options:
+
+            ## add holiday
             if choice == '1':
                 print("You have selected 'Add Holiday'")
-                name = input("What is the name of the holiday you'd like to add?: " )
-                date = input("what is the date of the holiday you'd like to add? (Please write date in 'YYYY-MM-DD' format): ")
+                name = input("What is the name of the holiday you'd like to add?: " )               
+                # date = input("what is the year of the holiday you'd like to add? (Please write date in 'YYYY-MM-DD' format): ")
+                month = input("what is the month of the holiday you'd like to add? (Please write date in 'MM' format): ")
+                day = input("what is the day of the holiday you'd like to add? (Please write date in 'DD' format): ")
+                year = input("what is the year of the holiday you'd like to add? (Please write date in 'YYYY' format): ")
+                date = f"{year}-{month}-{day}"
                 holidayObj = Holiday(name, date)
                 mainHolidayList.addHoliday(holidayObj)
                 choose()
 
+            ## remove holiday
             if choice == '2':
                 print("You have selected 'Remove Holiday'")
                 name = input("What is the name of the holiday you'd like to remove?: " )
-                date = input("what is the date of the holiday you'd like to remove? (Please write date in 'YYYY-MM-DD' format): ")
+                # date = input("what is the date of the holiday you'd like to remove? (Please write date in 'YYYY-MM-DD' format): ")
+                month = input("what is the month of the holiday you'd like to remove? (Please write date in 'MM' format): ")
+                day = input("what is the day of the holiday you'd like to remove? (Please write date in 'DD' format): ")
+                year = input("what is the year of the holiday you'd like to remove? (Please write date in 'YYYY' format): ")
+                date = f"{year}-{month}-{day}"
+
                 mainHolidayList.removeHoliday(name, date)
                 choose()
 
+            ## save holiday list
             if choice == '3':
                 print("You have selected 'Save Holiday List'")
                 fileLocation = input("What would you like the name of the file location to be?: ")
                 print("Okay, saving file now...")
-                mainHolidayList.save_to_json(fileLocation, mainHolidayList.innerHolidays)
+                mainHolidayList.save_to_json(f'{fileLocation}.json', mainHolidayList.innerHolidays)
                 print("File saved!")
+                choose()
+
+            if choice == '4':
+                print("You have selected 'View Holidays'")
+                print("Function coming soon!!!")
                 choose()
 
             if choice == '5':
@@ -212,7 +227,10 @@ def choose():
                 elif answer == 'N':
                     print("Oh, okay, let's go back to the main menu:")
                     choose()
-                    
+
+        else:
+            print("Please pick a number from 1-5 to represent your choice: ")
+            choose()
 
 def menu():
     exit = False
