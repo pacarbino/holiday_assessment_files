@@ -234,7 +234,7 @@ def main():
 #     # -------------------------------------
 #     # 1. Initialize HolidayList Object  (Done Above)
 #     # 2. Load JSON file via HolidayList read_json function
-    mainHolidayList.read_json('holiday_startercode.txt')
+    mainHolidayList.read_json('holidays.txt')
 #     # 3. Scrape additional holidays using your HolidayList scrapeHolidays function.
     mainHolidayList.holidayScraper('https://www.timeanddate.com/holidays/us/', '2020')
     mainHolidayList.holidayScraper('https://www.timeanddate.com/holidays/us/', '2021')
