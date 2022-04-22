@@ -3,7 +3,7 @@ Repository for my Python Holiday App assessment.
 
 The final program is in the 'holiday_program_final' file.
 
-Main file right now is "function_progress", where I'm adding code as it seemingly works. It's not entirely finalized, but it is the most up to date version of the program.
+the main testing file right now is "function_progress", where I'm adding code as it seemingly works.
 
 "holidays.txt" is the beginning file used to import and populate the innerHolidays list in the program. 
 
